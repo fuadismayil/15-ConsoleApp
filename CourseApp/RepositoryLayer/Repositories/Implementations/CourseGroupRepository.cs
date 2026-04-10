@@ -19,22 +19,18 @@ namespace RepositoryLayer.Repositories.Implementations
                 Console.WriteLine($"An error occurred while creating the course group: {ex.Message}");
             }
         }
-
         public void Delete(CourseGroup data)
         {
             AppDbContext<CourseGroup>.datas.Remove(data);
         }
-
         public CourseGroup Get(Predicate<CourseGroup> predicate)
         {
             return predicate != null ? AppDbContext<CourseGroup>.datas.Find(predicate) : null;
         }
-
         public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate = null)
         {
             return predicate != null ? AppDbContext<CourseGroup>.datas.FindAll(predicate) : AppDbContext<CourseGroup>.datas;
         }
-
         public void Update(CourseGroup data)
         {
             CourseGroup dbCourseGroup = Get(courseGroup => courseGroup.Id == data.Id);

@@ -24,22 +24,18 @@ namespace RepositoryLayer.Repositories.Implementations
                 Console.WriteLine($"An error occurred while creating the student: {ex.Message}");
             }
         }
-
         public void Delete(Student data)
         {
             AppDbContext<Student>.datas.Remove(data);
         }
-
         public Student Get(Predicate<Student> predicate)
         {
             return predicate != null ? AppDbContext<Student>.datas.Find(predicate) : null;
         }
-
         public List<Student> GetAll(Predicate<Student> predicate = null)
         {
             return predicate != null ? AppDbContext<Student>.datas.FindAll(predicate) : AppDbContext<Student>.datas;
         }
-
         public void Update(Student data)
         {
             Student dbStudent = Get(student => student.Id == data.Id);
