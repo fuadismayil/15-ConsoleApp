@@ -20,19 +20,19 @@ namespace RepositoryLayer.Repositories.Implementations
             }
         }
 
-        public void Delete(int id)
+        public void Delete(CourseGroup data)
         {
-            throw new NotImplementedException();
+            AppDbContext<CourseGroup>.datas.Remove(data);
         }
 
         public CourseGroup Get(Predicate<CourseGroup> predicate)
         {
-            throw new NotImplementedException();
+            return predicate != null ? AppDbContext<CourseGroup>.datas.Find(predicate) : null;
         }
 
-        public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate)
+        public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate =null)
         {
-            throw new NotImplementedException();
+            return predicate != null ? AppDbContext<CourseGroup>.datas.FindAll(predicate) : AppDbContext<CourseGroup>.datas;
         }
 
         public void Update(CourseGroup data)

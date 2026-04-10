@@ -1,4 +1,5 @@
-﻿using CourseApp.Helpers;
+﻿using CourseApp.Controllers;
+using CourseApp.Helpers;
 using DomainLayer.Entities;
 using ServiceLayer.Services.Implementations;
 
@@ -8,43 +9,36 @@ namespace CourseApp
     {
         static void Main(string[] args)
         {
-            GroupService _groupService = new();
-            Helper.PrintConsole(ConsoleColor.Blue, "Select one option!");
-            Helper.PrintConsole(ConsoleColor.Yellow, "1 - Create Group\n2 - Get Group\n3 - Get All Groups\n4 - Delete Group\n5 - Update Group\n");
+            GroupController groupController = new();
 
-            while (true) {
-                SelectOption: string selectOption = Console.ReadLine();
+            Helper.PrintConsole(ConsoleColor.Blue, "Select one option!");
+            Helper.PrintConsole(ConsoleColor.Yellow, "1 - Create Group\n2 - Get Group By ID\n3 - Get All Groups\n4 - Get All Groups By Teacher\n5 - Delete Group\n6 - Update Group\n");
+
+            while (true)
+            {
+            SelectOption: string selectOption = Console.ReadLine();
                 int selectNumber;
-                bool isSelectOption=int.TryParse(selectOption, out selectNumber);
+                bool isSelectOption = int.TryParse(selectOption, out selectNumber);
 
                 if (isSelectOption)
                 {
-                    switch(selectNumber)
+                    switch (selectNumber)
                     {
                         case 1:
-                            Helper.PrintConsole(ConsoleColor.Blue, "Enter Group Name");
-                            string groupName = Console.ReadLine();
-                            Helper.PrintConsole(ConsoleColor.Blue, "Enter Group Teacher Name");
-                            string teacherName = Console.ReadLine();
-                            EnterRoom:
-                            Helper.PrintConsole(ConsoleColor.Blue, "Enter Group Room");
-                            string groupRoom= Console.ReadLine();
-                            int room;
-                            bool isRoom=int.TryParse(groupRoom, out room);
-                            if (isRoom)
-                            {
-                                CourseGroup group = new CourseGroup { Name=groupName, Teacher=teacherName,Room=room };
-                                var result = _groupService.Create(group);
-                                Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Room : {group.Room}");
-                                goto SelectOption;
-                            }
-                            else
-                            {
-                                Helper.PrintConsole(ConsoleColor.Red, "Please enter correct room type!");
-                                goto EnterRoom;
-                            }
-
-                                break;
+                            groupController.Create();
+                            goto SelectOption;
+                        case 2:
+                            groupController.GetById();
+                            goto SelectOption;
+                        case 3:
+                            groupController.GetAll();
+                            goto SelectOption;
+                        case 4:
+                            groupController.GetAllByTeacher();
+                            goto SelectOption;
+                        case 5:
+                            groupController.Delete();
+                            goto SelectOption;
                     }
                 }
                 else

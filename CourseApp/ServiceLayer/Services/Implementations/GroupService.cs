@@ -1,6 +1,7 @@
 ﻿using DomainLayer.Entities;
 using RepositoryLayer.Repositories.Implementations;
 using ServiceLayer.Services.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace ServiceLayer.Services.Implementations
 {
@@ -24,12 +25,25 @@ namespace ServiceLayer.Services.Implementations
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            CourseGroup group=GetById(id);
+            _groupRepository.Delete(group);
+        }
+
+        public List<CourseGroup> GetAll()
+        {
+            return _groupRepository.GetAll();
+        }
+
+        public List<CourseGroup> GetAllByTeacher(string teacher)
+        {
+            return _groupRepository.GetAll(g => g.Teacher == teacher);
         }
 
         public CourseGroup GetById(int id)
         {
-            throw new NotImplementedException();
+            CourseGroup group = _groupRepository.Get(g=>g.Id==id);
+            if(group is null) return null;
+            return group;
         }
 
         public CourseGroup Update(int id, CourseGroup group)

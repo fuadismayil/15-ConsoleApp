@@ -6,8 +6,9 @@ namespace RepositoryLayer.Repositories.Interfaces
     {
         void Create(T data);
         void Update(T data);
-        void Delete(int id);
+        void Delete(T data);
         T Get(Predicate<T> predicate);
         List<T> GetAll(Predicate<T> predicate);
+
     }
 }
