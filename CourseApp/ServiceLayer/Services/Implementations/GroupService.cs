@@ -34,9 +34,14 @@ namespace ServiceLayer.Services.Implementations
             return _groupRepository.GetAll();
         }
 
+        public List<CourseGroup> GetAllByRoom(int room)
+        {
+            return _groupRepository.GetAll(g => g.Room == room);
+        }
+
         public List<CourseGroup> GetAllByTeacher(string teacher)
         {
-            return _groupRepository.GetAll(g => g.Teacher == teacher);
+            return _groupRepository.GetAll(g => g.Teacher.ToUpper() == teacher.ToUpper());
         }
 
         public CourseGroup GetById(int id)
@@ -44,6 +49,11 @@ namespace ServiceLayer.Services.Implementations
             CourseGroup group = _groupRepository.Get(g=>g.Id==id);
             if(group is null) return null;
             return group;
+        }
+
+        public List<CourseGroup> SearchByName(string name)
+        {
+            return _groupRepository.GetAll(g => g.Name.ToLower() == name.ToLower().Trim());
         }
 
         public CourseGroup Update(int id, CourseGroup group)
