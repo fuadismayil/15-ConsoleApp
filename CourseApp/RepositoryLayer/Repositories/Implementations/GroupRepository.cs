@@ -5,14 +5,14 @@ using RepositoryLayer.Repositories.Interfaces;
 
 namespace RepositoryLayer.Repositories.Implementations
 {
-    public class GroupRepository : IRepository<Group>
+    public class GroupRepository : IRepository<CourseGroup>
     {
-        public void Create(Group data)
+        public void Create(CourseGroup data)
         {
             try
             {
                 if (data is null) throw new NotFoundException("Data not found!");
-                AppDbContext<Group>.datas.Add(data);
+                AppDbContext<CourseGroup>.datas.Add(data);
             }
             catch (Exception ex)
             {
@@ -25,17 +25,17 @@ namespace RepositoryLayer.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public Group Get(Predicate<Group> predicate)
+        public CourseGroup Get(Predicate<CourseGroup> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public List<Group> GetAll(Predicate<Group> predicate)
+        public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Group data)
+        public void Update(CourseGroup data)
         {
             throw new NotImplementedException();
         }

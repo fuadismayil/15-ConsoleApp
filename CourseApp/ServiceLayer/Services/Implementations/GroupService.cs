@@ -8,7 +8,11 @@ namespace ServiceLayer.Services.Implementations
     {
         private GroupRepository _groupRepository;
         private int _count = 1;
-        public Group Create(Group group)
+        public GroupService()
+        {
+            _groupRepository = new GroupRepository();
+        }
+        public CourseGroup Create(CourseGroup group)
         {
             group.Id = _count;
             _groupRepository.Create(group);
@@ -23,12 +27,12 @@ namespace ServiceLayer.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Group GetById(int id)
+        public CourseGroup GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Group Update(int id, Group group)
+        public CourseGroup Update(int id, CourseGroup group)
         {
             throw new NotImplementedException();
         }

@@ -6,10 +6,10 @@ namespace ServiceLayer.Services.Interfaces
 {
     public interface IGroupService
     {
-        Group Create(Group group);
-        Group Update(int id, Group group);
+        CourseGroup Create(CourseGroup group);
+        CourseGroup Update(int id, CourseGroup group);
         void Delete(int id);
 
-        Group GetById(int id);
+        CourseGroup GetById(int id);
     }
 }
