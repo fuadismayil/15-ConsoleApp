@@ -4,26 +4,25 @@ using ServiceLayer.Services.Implementations;
 
 namespace CourseApp.Controllers
 {
-    public class GroupController
+    public class CourseGroupController
     {
-        GroupService _groupService = new();
+        CourseGroupService _courseGroupService = new();
 
         public void CheckGroupEmpty()
         {
-            List<CourseGroup> groups1 = _groupService.GetAll();
-            if (groups1.Count == 0)
+            List<CourseGroup> courseGroups1 = _courseGroupService.GetAll();
+            if (courseGroups1 == null)
             {
                 Helper.PrintConsole(ConsoleColor.Red, "Groups not created or found!");
                 return;
-
             }
         }
         public void Create()
         {
         EnterName:
             Helper.PrintConsole(ConsoleColor.Blue, "Enter Group Name");
-            string groupName = Console.ReadLine().Trim();
-            if (string.IsNullOrWhiteSpace(groupName))
+            string courseGroupName = Console.ReadLine().Trim();
+            if (string.IsNullOrWhiteSpace(courseGroupName))
             {
                 Helper.PrintConsole(ConsoleColor.Red, "Group name cant be empty!");
                 goto EnterName;
@@ -38,14 +37,14 @@ namespace CourseApp.Controllers
             }
         EnterRoom:
             Helper.PrintConsole(ConsoleColor.Blue, "Enter Group Room");
-            string groupRoom = Console.ReadLine().Trim();
+            string courseGroupRoom = Console.ReadLine().Trim();
             int room;
-            bool isRoom = int.TryParse(groupRoom, out room);
+            bool isRoom = int.TryParse(courseGroupRoom, out room);
             if (isRoom)
             {
-                CourseGroup group = new CourseGroup { Name = groupName, Teacher = teacherName, Room = room };
-                var result = _groupService.Create(group);
-                Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Teacher: {group.Teacher}, Room : {group.Room}");
+                CourseGroup courseGroup = new CourseGroup { Name = courseGroupName, Teacher = teacherName, Room = room };
+                var result = _courseGroupService.Create(courseGroup);
+                Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {courseGroup.Id}, Name : {courseGroup.Name}, Teacher: {courseGroup.Teacher}, Room : {courseGroup.Room}");
             }
             else
             {
@@ -57,19 +56,19 @@ namespace CourseApp.Controllers
         {
             CheckGroupEmpty();
         EnterId: Helper.PrintConsole(ConsoleColor.Blue, "Enter the Group Id you want to get");
-            string groupId = Console.ReadLine().Trim();
+            string courseGroupId = Console.ReadLine().Trim();
             int id;
-            bool isGroupId = int.TryParse(groupId, out id);
-            if (isGroupId)
+            bool isCourseGroupId = int.TryParse(courseGroupId, out id);
+            if (isCourseGroupId)
             {
-                CourseGroup group = _groupService.GetById(id);
-                if (group is null)
+                CourseGroup courseGroup = _courseGroupService.GetById(id);
+                if (courseGroup is null)
                 {
                     Helper.PrintConsole(ConsoleColor.Red, "Group not found!");
                 }
                 else
                 {
-                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Teacher: {group.Teacher}, Room : {group.Room}");
+                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {courseGroup.Id}, Name : {courseGroup.Name}, Teacher: {courseGroup.Teacher}, Room : {courseGroup.Room}");
                 }
             }
             else
@@ -80,8 +79,8 @@ namespace CourseApp.Controllers
         }
         public void GetAll()
         {
-            List<CourseGroup> groups = _groupService.GetAll();
-            if (groups.Count == 0)
+            List<CourseGroup> courseGroups = _courseGroupService.GetAll();
+            if (courseGroups.Count == 0)
             {
                 Helper.PrintConsole(ConsoleColor.Red, "Groups not found!");
                 return;
@@ -89,9 +88,9 @@ namespace CourseApp.Controllers
             }
             else
             {
-                foreach (var group in groups)
+                foreach (var courseGroup in courseGroups)
                 {
-                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Teacher: {group.Teacher}, Room : {group.Room}");
+                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {courseGroup.Id}, Name : {courseGroup.Name}, Teacher: {courseGroup.Teacher}, Room : {courseGroup.Room}");
                 }
             }
         }
@@ -100,21 +99,21 @@ namespace CourseApp.Controllers
             CheckGroupEmpty();
         EnterId:
             Helper.PrintConsole(ConsoleColor.Blue, "Enter the Group Id you want to delete");
-            string groupId = Console.ReadLine().Trim();
+            string courseGroupId = Console.ReadLine().Trim();
             int id;
-            bool isGroupId = int.TryParse(groupId, out id);
-            if (isGroupId)
+            bool isCourseGroupId = int.TryParse(courseGroupId, out id);
+            if (isCourseGroupId)
             {
-                CourseGroup group = _groupService.GetById(id);
-                if (group is null)
+                CourseGroup courseGroup = _courseGroupService.GetById(id);
+                if (courseGroup is null)
                 {
                     Helper.PrintConsole(ConsoleColor.Red, "Group not found!");
                     goto EnterId;
                 }
                 else
                 {
-                    _groupService.Delete(id);
-                    Helper.PrintConsole(ConsoleColor.Green, $"[{group.Name}] deleted successfully!");
+                    _courseGroupService.Delete(id);
+                    Helper.PrintConsole(ConsoleColor.Green, $"[{courseGroup.Name}] deleted successfully!");
                 }
             }
             else
@@ -135,16 +134,16 @@ namespace CourseApp.Controllers
                 return;
             }
 
-            List<CourseGroup> groups = _groupService.GetAllByTeacher(teacherName);
-            if (groups == null || groups.Count == 0)
+            List<CourseGroup> courseGroups = _courseGroupService.GetAllByTeacher(teacherName);
+            if (courseGroups == null || courseGroups.Count == 0)
             {
                 Helper.PrintConsole(ConsoleColor.Red, $"No groups found for teacher \"{teacherName}\"!");
                 return;
             }
 
-            foreach (var group in groups)
+            foreach (var courseGroup in courseGroups)
             {
-                Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Teacher: {group.Teacher}, Room : {group.Room}");
+                Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {courseGroup.Id}, Name : {courseGroup.Name}, Teacher: {courseGroup.Teacher}, Room : {courseGroup.Room}");
             }
         }
         public void GetAllByRoom()
@@ -153,23 +152,23 @@ namespace CourseApp.Controllers
 
         EnterRoom:
             Helper.PrintConsole(ConsoleColor.Blue, "Enter the Room to get all groups by same room");
-            string groupRoom = Console.ReadLine().Trim();
+            string courseGroupRoom = Console.ReadLine().Trim();
             int room;
-            bool isGroupRoom = int.TryParse(groupRoom, out room);
+            bool isCourseGroupRoom = int.TryParse(courseGroupRoom, out room);
 
-            if (isGroupRoom)
+            if (isCourseGroupRoom)
             {
-                List<CourseGroup> groups = _groupService.GetAllByRoom(room);
+                List<CourseGroup> courseGroups = _courseGroupService.GetAllByRoom(room);
 
-                if (groups == null || groups.Count == 0)
+                if (courseGroups == null || courseGroups.Count == 0)
                 {
                     Helper.PrintConsole(ConsoleColor.Red, $"No groups found in room {room}!");
                     return;
                 }
 
-                foreach (var group in groups)
+                foreach (var courseGroup in courseGroups)
                 {
-                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {group.Id}, Name : {group.Name}, Teacher: {group.Teacher}, Room : {group.Room}");
+                    Helper.PrintConsole(ConsoleColor.Green, $"Group Id : {courseGroup.Id}, Name : {courseGroup.Name}, Teacher: {courseGroup.Teacher}, Room : {courseGroup.Room}");
                 }
             }
             else
@@ -181,7 +180,6 @@ namespace CourseApp.Controllers
         public void SearchByName()
         {
 
-
         EnterName: Helper.PrintConsole(ConsoleColor.Blue, "Enter Group name you want to search: ");
             string search = Console.ReadLine().Trim();
 
@@ -191,7 +189,7 @@ namespace CourseApp.Controllers
                 goto EnterName;
             }
 
-            var results = _groupService.SearchByName(search);
+            var results = _courseGroupService.SearchByName(search);
             if (results.Count == 0)
             {
                 Helper.PrintConsole(ConsoleColor.Red, "Group not found!");
@@ -202,7 +200,5 @@ namespace CourseApp.Controllers
             }
 
         }
-    
-        
     }
 }

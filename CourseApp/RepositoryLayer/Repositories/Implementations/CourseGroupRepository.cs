@@ -5,7 +5,7 @@ using RepositoryLayer.Repositories.Interfaces;
 
 namespace RepositoryLayer.Repositories.Implementations
 {
-    public class GroupRepository : IRepository<CourseGroup>
+    public class CourseGroupRepository : IRepository<CourseGroup>
     {
         public void Create(CourseGroup data)
         {
@@ -16,7 +16,7 @@ namespace RepositoryLayer.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while creating the group: {ex.Message}");
+                Console.WriteLine($"An error occurred while creating the course group: {ex.Message}");
             }
         }
 
@@ -30,14 +30,17 @@ namespace RepositoryLayer.Repositories.Implementations
             return predicate != null ? AppDbContext<CourseGroup>.datas.Find(predicate) : null;
         }
 
-        public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate =null)
+        public List<CourseGroup> GetAll(Predicate<CourseGroup> predicate = null)
         {
             return predicate != null ? AppDbContext<CourseGroup>.datas.FindAll(predicate) : AppDbContext<CourseGroup>.datas;
         }
 
         public void Update(CourseGroup data)
         {
-            throw new NotImplementedException();
+            CourseGroup dbCourseGroup = Get(courseGroup => courseGroup.Id == data.Id);
+            dbCourseGroup.Name = data.Name;
+            dbCourseGroup.Teacher = data.Teacher;
+            dbCourseGroup.Room = data.Room;
         }
     }
 }

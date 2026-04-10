@@ -4,10 +4,10 @@ using DomainLayer.Entities;
 
 namespace ServiceLayer.Services.Interfaces
 {
-    public interface IGroupService
+    public interface ICourseGroupService
     {
-        CourseGroup Create(CourseGroup group);
-        CourseGroup Update(int id, CourseGroup group);
+        CourseGroup Create(CourseGroup courseGroup);
+        CourseGroup Update(int id, CourseGroup cousreGroup);
         void Delete(int id);
         CourseGroup GetById(int id);
         List<CourseGroup> GetAll();

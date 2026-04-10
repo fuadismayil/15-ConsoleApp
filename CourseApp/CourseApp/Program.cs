@@ -7,7 +7,7 @@ namespace CourseApp
     {
         static void Main(string[] args)
         {
-            GroupController groupController = new();
+            CourseGroupController groupController = new();
 
             Helper.PrintConsole(ConsoleColor.Blue, "Select one option!");
             Helper.PrintConsole(ConsoleColor.Yellow, "1 - Create Group\n2 - Get Group By ID\n3 - Get All Groups\n4 - Get All Groups By Teacher\n5 - Get All Groups By Room\n6 - Search Groups By Name\n7 - Delete Group By Id");
