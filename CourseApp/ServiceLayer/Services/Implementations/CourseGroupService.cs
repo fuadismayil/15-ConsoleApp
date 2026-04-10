@@ -22,40 +22,33 @@ namespace ServiceLayer.Services.Implementations
 
 
         }
-
         public void Delete(int id)
         {
             CourseGroup courseGroup = GetById(id);
             _courseGroupRepository.Delete(courseGroup);
         }
-
         public List<CourseGroup> GetAll()
         {
             return _courseGroupRepository.GetAll();
         }
-
         public List<CourseGroup> GetAllByRoom(int room)
         {
             return _courseGroupRepository.GetAll(g => g.Room == room);
         }
-
         public List<CourseGroup> GetAllByTeacher(string teacher)
         {
             return _courseGroupRepository.GetAll(g => g.Teacher.ToUpper() == teacher.ToUpper());
         }
-
         public CourseGroup GetById(int id)
         {
             CourseGroup courseGroup = _courseGroupRepository.Get(g=>g.Id==id);
             if(courseGroup is null) return null;
             return courseGroup;
         }
-
-        public List<CourseGroup> SearchByName(string name)
+        public List<CourseGroup> Search(string name)
         {
             return _courseGroupRepository.GetAll(g => g.Name.ToLower() == name.ToLower().Trim());
         }
-
         public CourseGroup Update(int id, CourseGroup courseGroup)
         {
             CourseGroup dbCourseGroup = GetById(id);
@@ -64,5 +57,6 @@ namespace ServiceLayer.Services.Implementations
             _courseGroupRepository.Update(courseGroup);
             return GetById(id);
         }
+
     }
 }
