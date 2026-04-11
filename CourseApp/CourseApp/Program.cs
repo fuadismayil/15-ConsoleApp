@@ -1,52 +1,14 @@
 ﻿using CourseApp.Controllers;
-using CourseApp.Helpers;
-using System.Threading.Channels;
-
 namespace CourseApp
 {
     public class Program
     {
-        // ── Palette ──────────────────────────────────────────────────────────
         static readonly ConsoleColor C_Title = ConsoleColor.Cyan;
         static readonly ConsoleColor C_Select = ConsoleColor.Black;
         static readonly ConsoleColor C_Normal = ConsoleColor.White;
         static readonly ConsoleColor C_Dim = ConsoleColor.DarkGray;
         static readonly ConsoleColor C_Accent = ConsoleColor.DarkCyan;
-        static readonly ConsoleColor C_BgSel = ConsoleColor.Cyan;
-        // ── ASCII art ────────────────────────────────────────────────────────
-        static readonly string[] DolphinFrames =
-{
-    // Frame 0: Jumping up
-    "      __      " + "          \n" +
-    "   _ /  |     " + "          \n" +
-    "  / \")  >---' " + " _        \n" +
-    " /  __ /      " + "//        \n" +
-    " \"\"\"  \"\"      " + "          ",
-
-    // Frame 1: Mid-air / Peak
-    "      __      " + "          \n" +
-    "   _ /  |     " + "          \n" +
-    "  / \")  >---' " + " ~~       \n" +
-    " /  __ /      " + "          \n" +
-    " \"\"\"  \"\"      " + "          ",
-
-    // Frame 2: Diving down
-    "      __      " + "          \n" +
-    "   _ /  |     " + "          \n" +
-    "  / \")  >---' " + " \\\\       \n" +
-    " /  __ /      " + "  _       \n" +
-    " \"\"\"  \"\"      " + "          ",
-};
-
-        static readonly string[] DolphinArt =
-        {
-            @"    ___      ",
-            @"   /   \__  ",
-            @"  ( o   (  ~~",
-            @"   \___/~~  ",
-            @"    ~~       ",
-        };
-
+        static readonly ConsoleColor C_BgSel = ConsoleColor.Cyan;       
         static readonly string[] Logo =
         {
             @"  ██████╗ ██████╗ ██╗   ██╗██████╗ ███████╗███████╗ █████╗ ██████╗ ██████╗  ",
@@ -56,39 +18,24 @@ namespace CourseApp
             @" ╚██████╗╚██████╔╝╚██████╔╝██║  ██║███████║███████╗██║  ██║██║     ██║      ",
             @"  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝      ",
         };
-
-        // ── Entry point ──────────────────────────────────────────────────────
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             CourseGroupController groupController = new();
             StudentController studentController = new();
-
             PlayIntro();
             MainMenuLoop(groupController, studentController);
         }
-
-        // ── Intro animation ──────────────────────────────────────────────────
         static void PlayIntro()
         {
             Console.Clear();
-
-            // --- dolphin swim animation ---
             int consoleWidth = Console.WindowWidth;
-
-            
-
-            // --- fade-in logo ---
             Console.Clear();
             PrintDolphinStatic(2);
             PrintLogo();
             Thread.Sleep(2000);
         }
-
-        
-
         static void PrintDolphinStatic(int topRow)
         {
             string[] d =
@@ -105,7 +52,6 @@ namespace CourseApp
                 Console.WriteLine(line);
             }
         }
-
         static void PrintLogo()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -116,23 +62,17 @@ namespace CourseApp
             }
             Console.ResetColor();
         }
-
-        // ── Menu helpers ─────────────────────────────────────────────────────
         static int RunMenu(string[] items, string header, int startRow)
         {
             int selected = 0;
-
             while (true)
             {
                 Console.SetCursorPosition(0, startRow);
-
-                // header
                 Console.ForegroundColor = C_Dim;
                 string h = $"  {header}";
                 Console.WriteLine(h);
                 Console.WriteLine(new string('─', Math.Min(Console.WindowWidth - 1, 60)));
                 Console.ResetColor();
-
                 for (int i = 0; i < items.Length; i++)
                 {
                     string prefix = i == selected ? "  ▶  " : "     ";
@@ -146,16 +86,13 @@ namespace CourseApp
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = C_Normal;
                     }
-
                     string line = $"{prefix}{items[i]}";
                     line = line.PadRight(Math.Min(Console.WindowWidth - 1, 60));
                     Console.WriteLine(line);
                     Console.ResetColor();
                 }
-
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine();
-
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
@@ -170,14 +107,12 @@ namespace CourseApp
                 }
             }
         }
-
         static void DrawHeader()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            // mini dolphin + title on one line
             int w = Console.WindowWidth;
-            string title = "  🐬  CourseApp";
+            string title = "CourseApp";
             string bar = new string('═', Math.Min(w - 1, 70));
             Console.WriteLine(bar);
             int pad = Math.Max(0, (Math.Min(w - 1, 70) - title.Length) / 2);
@@ -186,18 +121,14 @@ namespace CourseApp
             Console.ResetColor();
             Console.WriteLine();
         }
-
-        // ── Main menu loop ───────────────────────────────────────────────────
         static void MainMenuLoop(CourseGroupController gc, StudentController sc)
         {
             string[] mainItems = { "GROUP SETTINGS", "STUDENT SETTINGS", "Exit" };
-
             while (true)
             {
                 DrawHeader();
-                int headerRows = 5; // header takes 5 lines
+                int headerRows = 5;
                 int choice = RunMenu(mainItems, "MAIN MENU", headerRows);
-
                 switch (choice)
                 {
                     case 0: GroupSettingsLoop(gc); break;
@@ -206,8 +137,6 @@ namespace CourseApp
                 }
             }
         }
-
-        // ── Group settings ───────────────────────────────────────────────────
         static void GroupSettingsLoop(CourseGroupController gc)
         {
             string[] items =
@@ -222,18 +151,15 @@ namespace CourseApp
                 "Delete Group By ID",
                 "← Back to Main Menu",
             };
-
             while (true)
             {
                 DrawHeader();
                 int choice = RunMenu(items, "GROUP SETTINGS", 5);
                 if (choice == items.Length - 1) return;
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine($"\n  ── {items[choice]} ──\n");
                 Console.ResetColor();
-
                 switch (choice)
                 {
                     case 0: gc.Create(); break;
@@ -245,15 +171,12 @@ namespace CourseApp
                     case 6: gc.Update(); break;
                     case 7: gc.Delete(); break;
                 }
-
                 Console.ForegroundColor = C_Dim;
                 Console.WriteLine("\n  Press any key to return...");
                 Console.ResetColor();
                 Console.ReadKey(true);
             }
         }
-
-        // ── Student settings ─────────────────────────────────────────────────
         static void StudentSettingsLoop(StudentController sc)
         {
             string[] items =
@@ -268,18 +191,15 @@ namespace CourseApp
                 "Get All Students",
                 "← Back to Main Menu",
             };
-
             while (true)
             {
                 DrawHeader();
                 int choice = RunMenu(items, "STUDENT SETTINGS", 5);
                 if (choice == items.Length - 1) return;
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine($"\n  ── {items[choice]} ──\n");
                 Console.ResetColor();
-
                 switch (choice)
                 {
                     case 0: sc.Create(); break;
@@ -291,21 +211,18 @@ namespace CourseApp
                     case 6: sc.Search(); break;
                     case 7: sc.GetAll(); break;
                 }
-
                 Console.ForegroundColor = C_Dim;
                 Console.WriteLine("\n  Press any key to return...");
                 Console.ResetColor();
                 Console.ReadKey(true);
             }
         }
-
-        // ── Exit ─────────────────────────────────────────────────────────────
         static void ExitApp()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             int w = Console.WindowWidth;
-            string msg = "👋  Goodbye! See you next time.";
+            string msg = "Goodbye! See you next time.";
             int pad = Math.Max(0, (w - msg.Length) / 2);
             Console.SetCursorPosition(0, Console.WindowHeight / 2 - 1);
             Console.WriteLine(new string(' ', pad) + msg);
