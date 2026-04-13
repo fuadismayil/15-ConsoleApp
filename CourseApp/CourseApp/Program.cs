@@ -1,7 +1,7 @@
 ﻿using CourseApp.Controllers;
 namespace CourseApp
 {
-    public class Program
+    public class Prooupam
     {
         static readonly ConsoleColor C_Title = ConsoleColor.Cyan;
         static readonly ConsoleColor C_Select = ConsoleColor.Black;
@@ -75,7 +75,7 @@ namespace CourseApp
                 Console.ResetColor();
                 for (int i = 0; i < items.Length; i++)
                 {
-                    string prefix = i == selected ? "  ▶  " : "     ";
+                    string prefix = i == selected ? "  >  " : "     ";
                     if (i == selected)
                     {
                         Console.BackgroundColor = C_BgSel;
